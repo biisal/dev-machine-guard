@@ -91,5 +91,27 @@ nfpms:
     bindir: /usr/local/bin
     file_name_template: "stepsecurity-dev-machine-guard-{{ .Version }}-{{ .Arch }}"
 
+source:
+  enabled: true
+
+sboms:
+  - id: binaries
+    artifacts: binary
+    documents:
+      - "{{ .ArtifactName }}.sbom.json"
+    args: ["$artifact", "--output", "spdx-json=$document", "--enrich", "all"]
+
+  - id: packages
+    artifacts: package
+    documents:
+      - "{{ .ArtifactName }}.sbom.json"
+    args: ["$artifact", "--output", "spdx-json=$document", "--enrich", "all"]
+
+  - id: source
+    artifacts: source
+    documents:
+      - "{{ .ArtifactName }}.sbom.json"
+    args: ["$artifact", "--output", "spdx-json=$document", "--enrich", "all"]
+
 release:
   draft: true
